@@ -18,7 +18,15 @@ const DATA_DIR = process.env.WORKSOPS_DATA_DIR || path.join(process.cwd(), ".dat
 const FILE = path.join(DATA_DIR, "worksops.db");
 
 /** 테이블은 기능을 붙일 때 여기에 CREATE TABLE IF NOT EXISTS 로 더한다. */
-const SCHEMA = ``;
+const SCHEMA = `
+-- AI WorkOps Agent 상태 한 벌 (src/lib/workops/store.ts). 합성 데이터 수십 KB 규모라 JSON 문서 하나로 둔다.
+CREATE TABLE IF NOT EXISTS workops_state (
+  id          INTEGER PRIMARY KEY CHECK (id = 1),
+  json        TEXT NOT NULL,
+  updated_by  TEXT,
+  updated_at  TEXT NOT NULL
+);
+`;
 
 let dbPromise: Promise<Database> | null = null;
 
@@ -35,7 +43,7 @@ function openDb(): Promise<Database> {
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
     }
     const db = new SQL.Database(bytes);
-    if (SCHEMA.trim()) db.exec(SCHEMA);
+    db.exec(SCHEMA);
     return db;
   })().catch((error) => {
     // 다음 요청에서 다시 열어 보게 한다.

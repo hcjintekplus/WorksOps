@@ -1,5 +1,6 @@
 import "server-only";
 import { NextResponse, type NextRequest } from "next/server";
+import { WRITE_HEADER } from "@/lib/write-request-header";
 
 /**
  * 쓰기 API 공통 가드.
@@ -10,7 +11,7 @@ import { NextResponse, type NextRequest } from "next/server";
  * - 크기: 계획 한 건은 1KB 안팎이라 기본 16KB 를 넘으면 거절한다. 절차가 긴 테스트 케이스처럼
  *   큰 본문을 받는 라우트는 maxBytes 를 넘긴다.
  */
-export const WRITE_HEADER = "x-worksops-request";
+export { WRITE_HEADER };
 const MAX_BODY_BYTES = 16 * 1024;
 
 export function rejectUnsafeWrite(request: NextRequest, maxBytes = MAX_BODY_BYTES): NextResponse | null {

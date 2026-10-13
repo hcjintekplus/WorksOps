@@ -7,6 +7,7 @@ import { useSWRConfig } from "swr";
 import { ChevronRight, PanelLeftClose, PanelLeftOpen, RefreshCw } from "lucide-react";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ContextChips, NavCount } from "@/components/workops/shell-extras";
 import { useT } from "@/i18n/provider";
 import { requestFresh } from "@/lib/fetcher";
 import { resetFreshness, useFreshness } from "@/lib/freshness";
@@ -71,11 +72,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav aria-label={t("화면 이동")} className="flex-1 space-y-0.5 overflow-y-auto px-3 py-2">
-          {NAV_LINKS.map(({ href, label, icon: Icon }) => {
+          {NAV_LINKS.map(({ href, label, icon: Icon, group }, index) => {
             const active = current?.href === href;
+            const divided = index > 0 && (NAV_LINKS[index - 1].group ?? 0) !== (group ?? 0);
             return (
+              <div key={href}>
+              {divided && <div className="mx-2.5 my-2 h-px bg-sidebar-border" aria-hidden />}
               <Link
-                key={href}
                 href={href}
                 aria-current={active ? "page" : undefined}
                 title={t(label)}
@@ -90,7 +93,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <Icon className="size-[18px] shrink-0" strokeWidth={1.8} />
                 {/* 베트남어처럼 길면 두 줄로 넘긴다 (자르지 않는다) */}
                 <span className={cn("hidden min-w-0 leading-snug", !collapsed && "lg:inline")}>{t(label)}</span>
+                {href === "/issues" && <NavCount className={cn("ml-auto hidden", !collapsed && "lg:inline-flex")} />}
               </Link>
+              </div>
             );
           })}
         </nav>
@@ -152,6 +157,7 @@ function ContextBar({ title }: { title: string }) {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
+          <ContextChips />
           <FreshnessLabel generatedAt={oldest?.generatedAt ?? null} sources={sources} />
           <button
             type="button"

@@ -1,6 +1,32 @@
-# WorksOps
+# WorksOps — AI WorkOps Agent
 
-SQMS(`C:\Workspace\SQA`)와 같은 스택·인프라로 구성한 Next.js 풀스택 앱.
+프로젝트 이슈 하나를 끝까지 대응(원인 분석 → 영향·비용 평가 → 대응안 → 승인 → 반영)하고, 출시 지연 비용을 얼마나 줄이는지 돈으로 검증하는 웹 시스템.
+기준은 `AI WorkOps Agent PRD v0.4` 와 서비스 웹 디자인 시스템 PRD 이며, 모든 데이터는 합성 가정치다.
+SQMS(`C:\Workspace\SQA`)와 같은 스택·인프라로 구성했다.
+
+## 화면
+
+| 메뉴 | 경로 | 내용 |
+|---|---|---|
+| 대시보드 | `/` | KPI 3개 · 대응안 기대비용 · 주의 필요 · 최근 이슈 |
+| 이슈 대응 | `/issues`, `/issues/new`, `/issues/[id]?step=` | S-001 접수 → S-002 원인·영향 → S-003 대응안 비교·승인 → S-004 반영·효과 |
+| 프로젝트 데이터 | `/project?tab=` | Mock Project System (Release·Requirement·Task·Risk·Member·계약·CR·Decision Log·Agent Run) |
+| Knowledge | `/knowledge?tab=&doc=` | 문서 검색 · 문서 27건 · 원인×근거 매트릭스 · 골드 질의 평가 · 변형 시나리오 |
+| 판단 기준·가정치 | `/rules?tab=` | rules · 비용 가정치 편집 · 프롬프트 · 스키마 |
+| 효과·KPI | `/kpi` | KPI 정의·계산 · Before 1회 측정 · After 기록 · 민감도 |
+| PRD·일정 | `/prd?tab=` | PRD 본문 · 일정 · 업무 패키지·할 일(담당자·상태 저장) |
+| 설정·연동 | `/settings` | AI 엔진(재생 ↔ Claude API) · 글로벌 릴리스 · 롤백 시연 · 초기화 |
+
+## 판단의 세 층 — 코드 위치
+
+| 층 | 위치 |
+|---|---|
+| 규칙 (지연일·비용·허용·추천·에스컬레이션) | `src/lib/workops/cost-model.ts` (+ 테스트) |
+| 기준표를 받은 LLM (원인·근거 강도·대응안 파라미터) | `src/lib/workops/agents.ts`(재생) · `claude-ai.ts`(Claude) — 결과는 `finalize*` 경계에서 검증 |
+| 사람 (선택·CR 수정·변경 사유) | S-003 화면 → `POST /api/workops/issues/[id]/approve` |
+
+상태는 서버 SQLite(`.data/worksops.db`, `WORKSOPS_DATA_DIR` 로 변경) 한 벌이다. 쓰기는 복사본에 작업하고 성공했을 때만 저장하므로 승인 반영 중 오류가 나면 아무것도 바뀌지 않는다(롤백).
+Claude API 키는 서버 환경변수 `ANTHROPIC_API_KEY` 로만 받는다.
 
 | 구분 | 구성 |
 |---|---|

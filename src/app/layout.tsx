@@ -6,6 +6,7 @@ import "./globals.css";
 import { LANG_COOKIE, toLang } from "@/i18n/config";
 import { I18nProvider } from "@/i18n/provider";
 import { AppShell } from "@/components/app-shell";
+import { ToastProvider } from "@/components/workops/overlays";
 
 /**
  * Pretendard Variable 을 self-host 한다.
@@ -28,8 +29,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WorksOps",
-  description: "WorksOps 대시보드",
+  title: "AI WorkOps Agent",
+  description: "프로젝트 이슈 대응(원인 분석 → 영향·비용 평가 → 대응안 → 승인 → 반영)과 출시 지연 비용 절감 효과를 관리합니다",
 };
 
 /**
@@ -51,7 +52,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-full flex-col">
         <I18nProvider initialLang={lang}>
-          <AppShell>{children}</AppShell>
+          <ToastProvider>
+            <AppShell>{children}</AppShell>
+          </ToastProvider>
         </I18nProvider>
       </body>
     </html>
