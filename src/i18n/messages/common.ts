@@ -1,0 +1,48 @@
+/** 여러 화면이 함께 쓰는 문구 (앱 셸, 언어 · 테마 전환, 공통 표시 값, 서버 오류 문구) */
+const common = {
+  en: {
+    "대시보드": "Dashboard",
+    "화면 이동": "Navigation",
+    "새로고침": "Refresh",
+    "사이드바 펼치기": "Expand sidebar",
+    "사이드바 접기": "Collapse sidebar",
+    "현재 위치": "Current location",
+    "캐시": "cache",
+    "실시간": "live",
+    "{time} 기준 · 출처 {source}": "As of {time} · source: {source}",
+    "방금 갱신": "Updated just now",
+    "{n}분 전 갱신": "Updated {n} min ago",
+    "{n}건": "{n} item|{n} items",
+    "언어": "Language",
+    "라이트 모드로 전환": "Switch to light mode",
+    "다크 모드로 전환": "Switch to dark mode",
+    // 서버가 돌려주는 오류 문구
+    "요청을 처리하지 못했습니다.": "The request could not be processed.",
+    "허용되지 않은 요청입니다.": "This request is not allowed.",
+    "요청이 너무 큽니다.": "The request is too large.",
+    "Jira 요청이 제한되었습니다. 잠시 후 다시 시도해 주세요.": "Jira is rate-limiting requests. Please try again shortly.",
+  },
+  vi: {
+    "대시보드": "Bảng điều khiển",
+    "화면 이동": "Điều hướng",
+    "새로고침": "Làm mới",
+    "사이드바 펼치기": "Mở rộng thanh bên",
+    "사이드바 접기": "Thu gọn thanh bên",
+    "현재 위치": "Vị trí hiện tại",
+    "캐시": "bộ nhớ đệm",
+    "실시간": "trực tiếp",
+    "{time} 기준 · 출처 {source}": "Tính đến {time} · nguồn: {source}",
+    "방금 갱신": "Vừa cập nhật",
+    "{n}분 전 갱신": "Cập nhật {n} phút trước",
+    "{n}건": "{n} mục",
+    "언어": "Ngôn ngữ",
+    "라이트 모드로 전환": "Chuyển sang chế độ sáng",
+    "다크 모드로 전환": "Chuyển sang chế độ tối",
+    "요청을 처리하지 못했습니다.": "Không thể xử lý yêu cầu.",
+    "허용되지 않은 요청입니다.": "Yêu cầu này không được phép.",
+    "요청이 너무 큽니다.": "Yêu cầu quá lớn.",
+    "Jira 요청이 제한되었습니다. 잠시 후 다시 시도해 주세요.": "Jira đang giới hạn yêu cầu. Vui lòng thử lại sau ít phút.",
+  },
+};
+
+export default common;

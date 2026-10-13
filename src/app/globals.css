@@ -1,0 +1,357 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/**
+ * WorksOps UI System (SQMS UI System 기반) (2026-10) — 네이비 · 오렌지 2색 + 회색 톤.
+ * 네이비 = 행동과 선택, 오렌지 = 주의가 필요함. 그 밖의 색은 의미가 있을 때만 쓴다
+ * (예외: 테스트 종류 차트 색은 사용자 지정으로 유지).
+ *
+ * 색은 shadcn 토큰 이름을 그대로 쓰고 값만 바꾼다.
+ * 이름을 새로 파지 않아야 프리미티브(버튼·셀렉트·테이블)가 손대지 않아도 따라온다.
+ *
+ *   PRD 토큰        →  이 파일의 토큰          →  Tailwind 클래스
+ *   bg.window       →  --background            →  bg-background
+ *   bg.sidebar      →  --sidebar               →  bg-sidebar
+ *   bg.content      →  --card / --popover      →  bg-card
+ *   bg.control      →  --muted / --secondary   →  bg-muted
+ *   bg.row.alt      →  --row-alt               →  bg-row-alt
+ *   label.primary   →  --foreground            →  text-foreground
+ *   label.secondary →  --muted-foreground      →  text-muted-foreground
+ *   label.tertiary  →  --label-3               →  text-label-3
+ *   separator       →  --border                →  border / border-border
+ *   separator.inset →  --sep-inset             →  border-sep-inset
+ *   accent          →  --primary               →  bg-primary / text-primary
+ *   accent.tint     →  --accent                →  bg-accent
+ */
+@theme {
+  /* 셸 PRD §5 의 기준 폭. 임의 변형(min-[1440px])은 lg 보다 먼저 배치돼
+     좁은 값이 이기므로, 순서가 보장되는 명명 브레이크포인트로 둔다. */
+  --breakpoint-wide: 1440px;
+
+  /**
+   * 타이포 스케일 — 7단계 고정. 이 밖의 크기는 쓰지 않는다.
+   *
+   * 기본 스케일(text-xs ~ text-9xl)은 아래 `--text-*: initial` 로 통째로 지운다.
+   * 지우지 않으면 text-sm 같은 옛 클래스가 계속 먹어 스케일이 두 벌이 된다.
+   * 각 단계는 크기와 함께 행간·굵기·자간을 지고 다니므로, 크기를 바꾸면 나머지도
+   * 같이 따라온다 — 13px 에 700 같은 조합을 손으로 만들 일이 없다.
+   * rem 이 아니라 px 다. 열 정렬이 브라우저 확대보다 우선이다.
+   */
+  --text-*: initial;
+  /* Caption 12/16 400 — 보조 설명, 타임스탬프 */
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+  --text-caption--font-weight: 400;
+  /* Label 12/16 500 — 표 머리글, 입력 라벨 (보조 글도 이 크기) */
+  --text-footnote: 12px;
+  --text-footnote--line-height: 16px;
+  --text-footnote--font-weight: 400;
+  --text-label: 12px;
+  --text-label--line-height: 16px;
+  --text-label--font-weight: 500;
+  /* Body 14/22 400 — 본문, 표 셀 */
+  --text-body: 14px;
+  --text-body--line-height: 22px;
+  --text-body--font-weight: 400;
+  /* H3 15/22 600 — 카드 제목 */
+  --text-headline: 15px;
+  --text-headline--line-height: 22px;
+  --text-headline--font-weight: 600;
+  /* H2 18/26 600 — 섹션 제목 (18px 이상은 자간 -0.01em) */
+  --text-display: 18px;
+  --text-display--line-height: 26px;
+  --text-display--font-weight: 600;
+  --text-display--letter-spacing: -0.01em;
+  /* H1 24/32 600 — 페이지 제목 */
+  --text-title: 24px;
+  --text-title--line-height: 32px;
+  --text-title--font-weight: 600;
+  --text-title--letter-spacing: -0.01em;
+  /* Metric 32/40 600 — KPI 수치 */
+  --text-metric: 32px;
+  --text-metric--line-height: 40px;
+  --text-metric--font-weight: 600;
+  --text-metric--letter-spacing: -0.01em;
+
+  /* 도형: 버튼 · 입력 8px, 카드 12px, 배지 6px */
+  --radius-control: 8px;
+  --radius-field: 8px;
+  --radius-row: 8px;
+  --radius-container: 12px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  /* PRD 전용 토큰 — shadcn 이름으로 덮을 수 없는 것만 새로 판다. */
+  --color-row-alt: var(--row-alt);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --color-label-3: var(--label-3);
+  --color-sep-inset: var(--sep-inset);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/**
+ * 서체는 여기서 한 번만 정한다. 컴포넌트는 font-family 를 직접 쓰지 않는다.
+ * 첫 이름은 next/font 가 만들어 준 Pretendard Variable 이고, 그 뒤로 설치본 →
+ * 각 OS 시스템 서체 순으로 떨어진다.
+ */
+:root {
+  --font-sans: var(--font-pretendard), Pretendard, -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Segoe UI", sans-serif;
+
+  --background: #fafafb; /* gray-25 앱 배경 */
+  --foreground: #111827; /* gray-900 */
+  --card: #ffffff; /* gray-0 */
+  --card-foreground: #111827;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --primary: #1b2a4a; /* navy-600: Primary 버튼, 링크, 차트 주 시리즈, 포커스 링 */
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6; /* gray-50 */
+  --secondary-foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280; /* gray-500 */
+  --accent: #eceff4; /* 네이비 틴트 */
+  --accent-foreground: #1b2a4a;
+  --destructive: #c8372d; /* red-600 */
+  --border: #e5e7eb; /* gray-100 */
+  --input: #e5e7eb;
+  --ring: #1b2a4a;
+  --row-alt: #fafafb;
+  --label-3: #b4b9c2; /* gray-300 비활성 */
+  --sep-inset: #eef0f3;
+  --radius: 8px;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #1b2a4a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f4f6; /* 선택된 내비 항목 */
+  --sidebar-accent-foreground: #1b2a4a;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #1b2a4a;
+
+  /* 기능색: orange-500 #E8772E 주의 · green-600 #1F8A5B 성공 · red-600 #C8372D 오류 */
+  --warning: #e8772e;
+  --success: #1f8a5b;
+
+  /**
+   * 상태 배지 (PRD §2.3). 12% 틴트 배경 + 어둡게 보정한 텍스트.
+   *
+   * 텍스트 색은 자기 틴트 배경 위에서 4.5:1 을 넘도록 개별 계산했다. PRD 가 제시한
+   * green #248A3D 는 실측 3.98:1 이라 #1B6E2F 로, blue 는 accent(#0071E3, 4.02:1)
+   * 대신 #0062CC 로 내렸다.
+   */
+  /* 10% 틴트 배경 + 진한 텍스트 (글자는 틴트 위에서 4.5:1 이상) */
+  --badge-gray-bg: #f3f4f6;
+  --badge-gray-fg: #4b5563;
+  --badge-blue-bg: #eceff4;
+  --badge-blue-fg: #1b2a4a;
+  --badge-orange-bg: #fdf1ea;
+  --badge-orange-fg: #a8501a;
+  --badge-green-bg: #e9f3ee;
+  --badge-green-fg: #17704a;
+  --badge-purple-bg: #f5eafb;
+  --badge-purple-fg: #8944ab;
+  --badge-red-bg: #faebea;
+  --badge-red-fg: #b3302a;
+
+  /* 테스트환경 아이콘 (파스텔): DR 회색 · RM 파랑 · VI 녹색. 글자는 같은 색상의 진한 단계라 4.5:1 이상 */
+  --env-dr-bg: #dde1e7;
+  --env-dr-border: #bcc3ce;
+  --env-dr-fg: #374151;
+  --env-rm-bg: #c4dcf7;
+  --env-rm-border: #8fbaea;
+  --env-rm-fg: #174f8f;
+  --env-vi-bg: #c3e8d2;
+  --env-vi-border: #8acda6;
+  --env-vi-fg: #17603b;
+
+  /* 시장 불량 SQA 기검출 = 파랑 (미검출은 --badge-red-*) */
+  --mark-blue-bg: #dbeafe;
+  --mark-blue-fg: #1d4ed8;
+  /* 재현위치 재현중 = 노랑 */
+  --mark-yellow-bg: #fef3c7;
+  --mark-yellow-fg: #854d0e;
+
+  /**
+   * 차트 조각 (dataviz 검증 통과: 최악 인접쌍 ΔE 15.8 이상, 색각 이상 포함).
+   *
+   * Full = 파랑, Partial = 하늘, Confirmation = 초록, SKIP = 회색 (사용자 지정 2026-09-29).
+   * SKIP 과 기타가 둘 다 회색이라 SKIP 은 진하게, 기타는 옅게 둬서 명도로 가른다.
+   */
+  --chart-test-1: #0071e3;
+  --chart-test-2: #5ac8fa;
+  --chart-test-3: #34c759;
+  --chart-skip: #8e8e93;
+  --chart-other: #d2d2d7;
+}
+
+/* PRD §2.2 / §8 — 토큰만 바뀌고 도형·치수·굵기는 그대로. 그림자는 전부 뺀다. */
+.dark {
+  --background: #0f1115;
+  --foreground: #e5e7eb;
+  --card: #171a21;
+  --card-foreground: #e5e7eb;
+  --popover: #1c2029;
+  --popover-foreground: #e5e7eb;
+  /* 다크에서 네이비는 배경에 묻혀서 같은 색상의 밝은 단계를 쓴다 */
+  --primary: #9db0d6;
+  --primary-foreground: #0f1115;
+  --secondary: #222731;
+  --secondary-foreground: #e5e7eb;
+  --muted: #222731;
+  --muted-foreground: #9ca3af;
+  --accent: #1f2738;
+  --accent-foreground: #b9c7e4;
+  --destructive: #f07167;
+  --border: #2a2f3a;
+  --input: #2a2f3a;
+  --ring: #9db0d6;
+  --row-alt: #1a1e26;
+  --label-3: #5b6270;
+  --sep-inset: #232832;
+
+  --sidebar: #13161c;
+  --sidebar-foreground: #e5e7eb;
+  --sidebar-primary: #9db0d6;
+  --sidebar-primary-foreground: #0f1115;
+  --sidebar-accent: #222731;
+  --sidebar-accent-foreground: #c9d4ea;
+  --sidebar-border: #2a2f3a;
+  --sidebar-ring: #9db0d6;
+
+  --warning: #f0975c;
+  --success: #4cb889;
+
+  /* 다크에서는 틴트를 18% 로 올리고, 흐린 색은 흰색을 섞어 4.5:1 을 맞춘다. */
+  --badge-gray-bg: #262b35;
+  --badge-gray-fg: #b4bac5;
+  --badge-blue-bg: #222c40;
+  --badge-blue-fg: #b9c7e4;
+  --badge-orange-bg: #3a2a1f;
+  --badge-orange-fg: #f0975c;
+  --badge-green-bg: #1c3329;
+  --badge-green-fg: #4cb889;
+  --badge-purple-bg: #463451;
+  --badge-purple-fg: #d28cf6;
+  --badge-red-bg: #3a2224;
+  --badge-red-fg: #f07167;
+
+  --env-dr-bg: #313844;
+  --env-dr-border: #4b5464;
+  --env-dr-fg: #c3c8d1;
+  --env-rm-bg: #223f69;
+  --env-rm-border: #39629a;
+  --env-rm-fg: #a9cdf5;
+  --env-vi-bg: #204a35;
+  --env-vi-border: #367256;
+  --env-vi-fg: #a6dcbc;
+
+  --mark-blue-bg: #1e3a66;
+  --mark-blue-fg: #a5c8ff;
+  --mark-yellow-bg: #3d3214;
+  --mark-yellow-fg: #fcd34d;
+
+  /* 다크는 같은 색상의 다크 모드 시스템 색. SKIP 은 기타(#48484a)보다 밝게 둔다. */
+  --chart-test-1: #0a84ff;
+  --chart-test-2: #64d2ff;
+  --chart-test-3: #30d158;
+  --chart-skip: #98989d;
+  --chart-other: #48484a;
+}
+
+/**
+ * 셸 레이아웃의 레일 폭 (PRD §2.1, §5).
+ *
+ * 🔴 Tailwind 변형으로 쓰지 않는다. lg:grid-cols-[200px] 와 wide:grid-cols-[216px] 를
+ *    같이 걸면 216px 규칙이 먼저 생성돼(실측: 3154행 vs 3249행) 넓은 화면에서도 200px 가
+ *    이긴다. 두 미디어쿼리를 원하는 순서로 직접 적어 뒤가 이기게 한다.
+ */
+@media (min-width: 1024px) {
+  .shell-grid {
+    grid-template-columns: 200px 1fr;
+  }
+}
+@media (min-width: 1440px) {
+  .shell-grid {
+    grid-template-columns: 216px 1fr;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  /**
+   * 숫자는 어디서나 자리폭이 같아야 세로로 줄이 선다 — 표 셀·건수 배지·날짜·버전이
+   * 전부 섞여 나오므로 한 군데씩 지정하는 대신 문서 전체에 건다.
+   */
+  body {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* 비례 숫자가 필요한 자리에서 되돌리거나, 명시적으로 표 숫자를 요구할 때 쓴다. */
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 컨텍스트 바 아래 2px 진행 바 (갱신 중) */
+@keyframes worksops-progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}

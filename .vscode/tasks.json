@@ -1,0 +1,34 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // type "npm" 은 PowerShell 로 npm.ps1 을 부르는데, 이 PC 는 실행 정책이 Restricted 라
+      // 스크립트가 막혀 preLaunchTask 가 실패한다. 셸을 거치지 않고 npm.cmd 를 직접 띄운다.
+      "label": "next dev",
+      "type": "process",
+      "command": "npm.cmd",
+      "args": ["run", "dev"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "next",
+        "fileLocation": "relative",
+        "pattern": {
+          "regexp": "^\\s*(.*)\\((\\d+),(\\d+)\\):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*(Starting|Compiling|Next\\.js).*",
+          "endsPattern": ".*Ready in.*"
+        }
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "worksops",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 55240 -H 127.0.0.1",
+    "build": "next build",
+    "start": "next start -p 61302 -H 127.0.0.1",
+    "lint": "eslint",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
+    "lucide-react": "^1.38.0",
+    "next": "16.3.4",
+    "radix-ui": "^1.6.7",
+    "react": "19.2.8",
+    "react-day-picker": "^10.0.1",
+    "react-dom": "19.2.8",
+    "server-only": "^0.0.1",
+    "shadcn": "^4.19.1",
+    "sql.js": "^1.14.2",
+    "swr": "^2.5.1",
+    "tailwind-merge": "^3.6.0",
+    "tw-animate-css": "^1.4.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/sql.js": "^1.4.11",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.4",
+    "jsdom": "^30.0.1",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.1.11"
+  },
+  "packageManager": "npm@11.16.0",
+  "allowScripts": {
+    "unrs-resolver@1.12.2": true
+  }
+}
