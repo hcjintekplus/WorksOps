@@ -11,10 +11,12 @@ import initSqlJs, { type Database, type SqlValue } from "sql.js";
  * 쓸 때마다 파일로 내보낸다.
  *
  * 파일 위치는 앱 폴더의 `.data/worksops.db` 이고 git·배포 전송에서 빠진다(.gitignore, 배포 tar 제외).
- * 다른 곳에 두려면 WORKSOPS_DATA_DIR 을 준다. Next 프로세스는 하나라 쓰기를 프로세스 안에서 한 줄로
+ * 다른 곳에 두려면 WORKSOPS_DATA_DIR 을 준다. Vercel 은 앱 폴더가 읽기 전용이라 /tmp 에 둔다 — 인스턴스마다
+ * 따로이고 콜드 스타트에 사라지므로 Vercel 배포는 시연용이다. Next 프로세스는 하나라 쓰기를 프로세스 안에서 한 줄로
  * 세우고, 임시 파일에 쓴 뒤 rename 해 쓰는 도중에 끊겨도 파일이 반쯤 남지 않게 한다.
  */
-const DATA_DIR = process.env.WORKSOPS_DATA_DIR || path.join(process.cwd(), ".data");
+const DATA_DIR =
+  process.env.WORKSOPS_DATA_DIR || (process.env.VERCEL ? "/tmp/worksops" : path.join(process.cwd(), ".data"));
 const FILE = path.join(DATA_DIR, "worksops.db");
 
 /** 테이블은 기능을 붙일 때 여기에 CREATE TABLE IF NOT EXISTS 로 더한다. */

@@ -33,6 +33,13 @@ const nextConfig: NextConfig = {
    */
   serverExternalPackages: ["sql.js"],
   /**
+   * Vercel(works-ops.vercel.app)처럼 도메인 루트로 들어오면 basePath 로 보낸다.
+   * 운영 nginx 는 /worksops 만 넘기므로 영향이 없다.
+   */
+  async redirects() {
+    return [{ source: "/", destination: BASE_PATH, basePath: false, permanent: false }];
+  },
+  /**
    * 클라이언트의 상대 fetch("/api/...")에는 basePath가 자동으로 붙지 않는다.
    * src/lib/fetcher.ts가 이 값을 읽어 앞에 붙인다.
    */
