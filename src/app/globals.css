@@ -66,8 +66,8 @@
   --text-display--font-weight: 600;
   --text-display--letter-spacing: -0.01em;
   /* H1 24/32 600 — 페이지 제목 */
-  --text-title: 24px;
-  --text-title--line-height: 32px;
+  --text-title: 26.4px;
+  --text-title--line-height: 35px;
   --text-title--font-weight: 600;
   --text-title--letter-spacing: -0.01em;
   /* Metric 32/40 600 — KPI 수치 */
