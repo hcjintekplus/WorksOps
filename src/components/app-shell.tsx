@@ -60,13 +60,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         )}
       >
         <div className={cn("flex h-14 shrink-0 items-center px-4", !collapsed && "lg:px-5")}>
-          <Link href="/" className="flex items-baseline gap-2" aria-label="WorksOps">
+          <Link href="/" className="flex items-baseline gap-2" aria-label="웍스옵스">
             {/* 로고는 사용자 지정 크기 · 굵기(18px · bold)를 유지한다. 접히면 머리글자만. */}
             <span className={cn("text-[22px] leading-none font-bold text-sidebar-foreground", !collapsed && "lg:hidden")}>
               W
             </span>
             <span className={cn("hidden text-[18px] leading-none font-bold text-sidebar-foreground", !collapsed && "lg:inline")}>
-              WorksOps
+              웍스옵스
             </span>
           </Link>
         </div>
